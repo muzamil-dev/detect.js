@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DETECT - Deception Tracking Through Eye Cues Technology</title>
+
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --panel: #1a1a1a;
+      --text: #e7eefc;
+      --muted: #9aa7c7;
+      --accent: #a855f7;
+      --accent-hover: #c084fc;
+      --border: #2a2a2a;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+    }
+
+    html, body {
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    body {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 280px;
+      background: var(--panel);
+      border-right: 1px solid var(--border);
+      padding: 24px 18px;
+      overflow-y: auto;
+      position: sticky;
+      top: 0;
+      max-height: 100vh;
+    }
+
+    .sidebar .logo {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--accent);
+      margin-bottom: 30px;
+      letter-spacing: -0.5px;
+    }
+
+    .nav-section {
+      margin-bottom: 24px;
+    }
+
+    .nav-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+
+    .nav-item {
+      padding: 8px 10px;
+      border-radius: 6px;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s;
+      display: block;
+    }
+
+    .nav-item:hover {
+      background: rgba(168, 85, 247, 0.1);
+      color: var(--text);
+    }
+
+    .nav-item.active {
+      color: var(--accent);
+      background: rgba(168, 85, 247, 0.15);
+    }
+
+    /* Main content */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      max-height: 100vh;
+      overflow-y: auto;
+    }
+
+    /* Hero */
+    .hero {
+      padding: 80px 40px;
+      text-align: center;
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, transparent 100%);
+    }
+
+    .hero h1 {
+      font-size: 56px;
+      font-weight: 800;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--text) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: var(--muted);
+      margin-bottom: 20px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 60px 40px;
+      width: 100%;
+    }
+
+    /* Content */
+    .content h2 {
+      font-size: 32px;
+      margin-top: 60px;
+      margin-bottom: 20px;
+      color: var(--accent);
+    }
+
+    .content h3 {
+      font-size: 20px;
+      margin-top: 40px;
+      margin-bottom: 15px;
+      color: var(--text);
+    }
+
+    .content p {
+      color: var(--muted);
+      margin-bottom: 15px;
+      line-height: 1.8;
+    }
+
+    .content ul, .content ol {
+      margin-left: 20px;
+      margin-bottom: 20px;
+      color: var(--muted);
+    }
+
+    .content li {
+      margin-bottom: 10px;
+    }
+
+    .content strong {
+      color: var(--accent);
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin: 20px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .tab {
+      padding: 12px 20px;
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+    }
+
+    .tab:hover {
+      color: var(--text);
+    }
+
+    .tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    .tab-content {
+      display: none;
+      padding: 20px 0;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Cards */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin: 40px 0;
+    }
+
+    .feature-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      padding: 30px;
+      border-radius: 12px;
+      transition: all 0.3s;
+    }
+
+    .feature-card:hover {
+      border-color: var(--accent);
+      background: rgba(168, 85, 247, 0.05);
+    }
+
+    .feature-card h4 {
+      color: var(--accent);
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+
+    .feature-card p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    /* Table */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+
+    table th {
+      background: var(--panel);
+      color: var(--accent);
+      padding: 15px;
+      text-align: left;
+      border-bottom: 2px solid var(--border);
+      font-weight: 600;
+    }
+
+    table td {
+      padding: 15px;
+      border-bottom: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    table tr:hover {
+      background: rgba(168, 85, 247, 0.05);
+    }
+
+    /* Code */
+    code {
+      background: var(--panel);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--accent);
+      font-family: 'Monaco', 'Courier New', monospace;
+      font-size: 13px;
+    }
+
+    pre {
+      background: var(--panel);
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      overflow-x: auto;
+      margin: 20px 0;
+    }
+
+    pre code {
+      background: none;
+      padding: 0;
+      color: var(--text);
+    }
+
+    /* Search/CMD Palette */
+    .cmdk {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: 100px;
+      z-index: 1000;
+    }
+
+    .cmdk.open {
+      display: flex;
+    }
+
+    .cmdk-box {
+      width: 600px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 20px 80px rgba(0, 0, 0, 0.6);
+    }
+
+    .cmdk-input {
+      width: 100%;
+      padding: 16px;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text);
+      font-size: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .cmdk-results {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .cmdk-item {
+      padding: 12px 16px;
+      cursor: pointer;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      transition: all 0.2s;
+    }
+
+    .cmdk-item:hover {
+      background: rgba(168, 85, 247, 0.1);
+      color: var(--text);
+    }
+
+    .cmdk-empty {
+      padding: 20px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--panel);
+      border-top: 1px solid var(--border);
+      padding: 40px;
+      text-align: center;
+      color: var(--muted);
+      margin-top: 60px;
+    }
+
+    footer p {
+      margin-bottom: 10px;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--muted);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      body {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+        max-height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        position: static;
+        padding: 16px;
+      }
+
+      .hero {
+        padding: 40px 20px;
+      }
+
+      .hero h1 {
+        font-size: 36px;
+      }
+
+      .container {
+        padding: 40px 20px;
+      }
+
+      .cmdk-box {
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Sidebar Navigation -->
+<aside class="sidebar">
+  <div class="logo">DETECT</div>
+
+  <div class="nav-section">
+    <div class="nav-title">Getting Started</div>
+    <div class="nav-item" onclick="scrollToSection('setup')">Clone & Setup</div>
+    <div class="nav-item" onclick="scrollToSection('overview')">Overview</div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-title">Features</div>
+    <div class="nav-item" onclick="scrollToSection('features')">Key Features</div>
+    <div class="nav-item" onclick="scrollToSection('tech')">Technology Stack</div>
+    <div class="nav-item" onclick="scrollToSection('architecture')">Architecture</div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-title">Docs</div>
+    <div class="nav-item" onclick="scrollToSection('dataflow')">Data Flow</div>
+    <div class="nav-item" onclick="scrollToSection('deployment')">Deployment</div>
+    <div class="nav-item" onclick="scrollToSection('future')">Future Work</div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-title">Team</div>
+    <div class="nav-item" onclick="scrollToSection('team')">Meet the Team</div>
+  </div>
+</aside>
+
+<!-- Main Content -->
+<div class="main">
+
+<nav>
+  <nav-content>
+    <a href="#" class="logo">DETECT</a>
+    <nav-links>
+      <a href="#overview">Overview</a>
+      <a href="#features">Features</a>
+      <a href="#tech">Technology</a>
+      <a href="#team">Team</a>
+    </nav-links>
+  </nav-content>
+</nav>
+
+<div class="hero">
+  <h1>DETECT</h1>
+  <p>Deception Tracking Through Eye Cues Technology</p>
+  <p style="font-size: 16px; margin-top: 20px;">Real-time, web-based deception detection using eye-tracking and behavioral analysis</p>
+</div>
+
+<div class="container content">
+  <h2 id="setup">Clone & Setup for Newbies</h2>
+  <p>Get DETECT running on your machine in minutes. Just follow the steps below for your operating system.</p>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('macos')">macOS / Linux</button>
+    <button class="tab" onclick="switchTab('windows')">Windows</button>
+  </div>
+
+  <div id="macos" class="tab-content active">
+    <h3>macOS & Linux Setup</h3>
+    <p><strong>Step 1: Clone the repository</strong></p>
+    <pre><code>git clone https://github.com/yourusername/DETECT.js.git
+cd DETECT.js</code></pre>
+
+    <p><strong>Step 2: Install Bun (fast JavaScript runtime)</strong></p>
+    <pre><code>curl -fsSL https://bun.sh/install | bash</code></pre>
+
+    <p><strong>Step 3: Install dependencies</strong></p>
+    <pre><code>bun install</code></pre>
+
+    <p><strong>Step 4: Start the development server</strong></p>
+    <pre><code>bun run dev</code></pre>
+
+    <p>Your site will be running at <code>http://localhost:3000</code> 🚀</p>
+  </div>
+
+  <div id="windows" class="tab-content">
+    <h3>Windows Setup</h3>
+    <p><strong>Step 1: Clone the repository</strong></p>
+    <pre><code>git clone https://github.com/yourusername/DETECT.js.git
+cd DETECT.js</code></pre>
+
+    <p><strong>Step 2: Install Bun for Windows</strong></p>
+    <p>Download and run the installer from <code>bun.sh</code> or use PowerShell:</p>
+    <pre><code>powershell -c "irm bun.sh/install.ps1 | iex"</code></pre>
+
+    <p><strong>Step 3: Install dependencies</strong></p>
+    <pre><code>bun install</code></pre>
+
+    <p><strong>Step 4: Start the development server</strong></p>
+    <pre><code>bun run dev</code></pre>
+
+    <p>Your site will be running at <code>http://localhost:3000</code> 🚀</p>
+
+    <p><strong>Troubleshooting:</strong> If you have issues, make sure you have <code>Node.js</code> or <code>Git Bash</code> installed.</p>
+  </div>
+
+  <h2 id="overview">Overview</h2>
+  <p>DETECT is a real-time, web-based system for analyzing potential deceptive behavior using eye-tracking and behavioral signals. It provides a non-invasive alternative to traditional polygraph-style methods by leveraging computer vision and deterministic signal processing techniques.</p>
+  <p>The system captures gaze patterns through a webcam or uploaded video, processes eye movement data in real time, and generates a deception likelihood score based on behavioral anomalies.</p>
+
+  <h2 id="features">Key Features</h2>
+  <div class="features">
+    <div class="feature-card">
+      <h4>⚡ Real-Time Gaze Analysis</h4>
+      <p>Processes eye movement data live for immediate feedback with minimal latency.</p>
+    </div>
+    <div class="feature-card">
+      <h4>📹 Non-Invasive Eye Tracking</h4>
+      <p>Uses MediaPipe FaceMesh for facial landmark and iris detection without external hardware.</p>
+    </div>
+    <div class="feature-card">
+      <h4>🔬 Deterministic Detection Engine</h4>
+      <p>Computes deception indicators using gaze dispersion (variance) and directional acceleration.</p>
+    </div>
+    <div class="feature-card">
+      <h4>📊 Personalized Scoring</h4>
+      <p>Min-Max normalization adapts scoring across sessions for user-specific baselines.</p>
+    </div>
+    <div class="feature-card">
+      <h4>🛡️ Robust Signal Processing</h4>
+      <p>Applies Savitzky-Golay filtering and affine transformations for stability under head movement.</p>
+    </div>
+    <div class="feature-card">
+      <h4>🌐 Web-Based Interface</h4>
+      <p>Supports live webcam input and video uploads with real-time visualization and graphs.</p>
+    </div>
+  </div>
+
+  <h2 id="tech">Technology Stack</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Layer</th>
+        <th>Technology</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Frontend</td>
+        <td><code>Astro</code></td>
+        <td>High-performance web framework with minimal JavaScript overhead</td>
+      </tr>
+      <tr>
+        <td>Eye Tracking</td>
+        <td><code>MediaPipe FaceMesh</code></td>
+        <td>Real-time facial landmark and iris tracking</td>
+      </tr>
+      <tr>
+        <td>Backend</td>
+        <td><code>Go (Gochi)</code></td>
+        <td>Low-latency, concurrent processing engine</td>
+      </tr>
+      <tr>
+        <td>Database</td>
+        <td><code>PostgreSQL</code></td>
+        <td>Stores gaze metrics, timestamps, and session data</td>
+      </tr>
+      <tr>
+        <td>Runtime</td>
+        <td><code>Bun</code></td>
+        <td>Fast JavaScript runtime for frontend tooling</td>
+      </tr>
+      <tr>
+        <td>Communication</td>
+        <td><code>WebSockets</code></td>
+        <td>Real-time streaming between frontend and backend</td>
+      </tr>
+      <tr>
+        <td>Deployment</td>
+        <td><code>Docker + DigitalOcean</code></td>
+        <td>Containerized deployment environment</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2 id="architecture">System Architecture</h2>
+  <pre><code>Video Input (Webcam/Upload)
+        ↓
+Frontend (Astro)
+        ↓
+MediaPipe FaceMesh Eye Tracking
+        ↓
+Raw Gaze Coordinates
+        ↓
+WebSocket Stream
+        ↓
+Backend: Go Processing Engine
+        ↓
+Deterministic Analysis
+(Gaze Dispersion, Directional Acceleration)
+        ↓
+Deception Score Calculation
+        ↓
+PostgreSQL Storage + Real-Time Visualization
+        ↓
+User Dashboard</code></pre>
+
+  <h2 id="dataflow">Data Flow</h2>
+  <ol>
+    <li>Video input is captured via webcam or uploaded file.</li>
+    <li>Astro frontend processes frames using MediaPipe FaceMesh.</li>
+    <li>Eye landmarks are converted into gaze coordinate data.</li>
+    <li>Data is streamed to backend via WebSockets.</li>
+    <li>Go backend applies filtering and statistical analysis.</li>
+    <li>Deception score is computed using deterministic rules.</li>
+    <li>Results are stored and visualized in real time.</li>
+  </ol>
+
+  <h2 id="deployment">Installation & Deployment</h2>
+  <p>The system is designed for containerized deployment using <strong>Docker</strong>.</p>
+  
+  <h3>Core Tools</h3>
+  <ul>
+    <li><strong>Docker</strong> - Containerized deployment</li>
+    <li><strong>Bun</strong> - JavaScript runtime for frontend tooling</li>
+    <li><strong>Conda</strong> - Environment management for ML/MediaPipe components</li>
+    <li><strong>GitHub / JIRA</strong> - Version control and Agile workflow tracking</li>
+  </ul>
+
+  <h3>Deployment Environment</h3>
+  <ul>
+    <li>Hosted on DigitalOcean VPS</li>
+    <li>Microservice-based Docker architecture</li>
+    <li>WebSocket-based real-time communication layer</li>
+  </ul>
+
+  <h2 id="team">Team</h2>
+  <ul>
+    <li><strong>Adam Bawatneh</strong> — Project Manager</li>
+    <li><strong>Brian Conn</strong> — Scrum Master & Frontend Developer</li>
+    <li><strong>Jeffrey Chang</strong> — Frontend Developer</li>
+    <li><strong>Muzamil Shamsi</strong> — Database & Frontend Developer</li>
+    <li><strong>Soham Ganguly</strong> — ML Engineer & Lead Full Stack Developer</li>
+    <li><strong>John Economou</strong> — Research & Backend Developer</li>
+  </ul>
+
+  <h2>Project Status</h2>
+  <p>The system is currently a functionally complete and deployable solution developed using Agile methodology.</p>
+
+  <h3>Epic Status</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Epic</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Project Management and Coordination</td>
+        <td>Done</td>
+      </tr>
+      <tr>
+        <td>Research and Data Collection</td>
+        <td>Done</td>
+      </tr>
+      <tr>
+        <td>Eye Tracking Implementation</td>
+        <td>Done</td>
+      </tr>
+      <tr>
+        <td>Anomaly Detection Algorithm</td>
+        <td>In Progress</td>
+      </tr>
+      <tr>
+        <td>Web Application Development</td>
+        <td>In Progress</td>
+      </tr>
+      <tr>
+        <td>Testing and Refinement</td>
+        <td>To Do</td>
+      </tr>
+      <tr>
+        <td>IRB Approval and Human Studies</td>
+        <td>To Do</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2 id="future">Future Work</h2>
+  <ul>
+    <li>Integration of advanced eye cues (pupil dilation, blink rate)</li>
+    <li>Addition of speech and audio behavioral analysis</li>
+    <li>IRB-approved validation studies with human participants</li>
+    <li>Improved ML hybridization with statistical detection engine</li>
+    <li>Enhanced personalization through long-term behavioral modeling</li>
+  </ul>
+</div>
+
+<footer>
+  <p><strong>DETECT</strong> - Deception Tracking Through Eye Cues Technology</p>
+  <p>Built with 🚀 for real-time behavioral analysis</p>
+  <p style="margin-top: 20px; font-size: 12px;">© 2026 DETECT Research Team. All rights reserved.</p>
+</footer>
+</div>
+
+<!-- Command Palette (CMD + K) -->
+<div class="cmdk" id="cmdk">
+  <div class="cmdk-box">
+    <input class="cmdk-input" id="cmdk-input" placeholder="Search docs... (press ESC to close)" />
+    <div class="cmdk-results" id="cmdk-results"></div>
+  </div>
+</div>
+
+<script>
+  const cmdk = document.getElementById('cmdk');
+  const cmdkInput = document.getElementById('cmdk-input');
+  const cmdkResults = document.getElementById('cmdk-results');
+
+  const searchItems = [
+    { label: 'Clone & Setup', id: 'setup' },
+    { label: 'Overview', id: 'overview' },
+    { label: 'Key Features', id: 'features' },
+    { label: 'Technology Stack', id: 'tech' },
+    { label: 'System Architecture', id: 'architecture' },
+    { label: 'Data Flow', id: 'dataflow' },
+    { label: 'Deployment', id: 'deployment' },
+    { label: 'Team', id: 'team' },
+    { label: 'Future Work', id: 'future' }
+  ];
+
+  // CMD + K to open search
+  window.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      cmdk.classList.add('open');
+      cmdkInput.focus();
+      renderResults('');
+    }
+    if (e.key === 'Escape') {
+      cmdk.classList.remove('open');
+    }
+  });
+
+  // Close on outside click
+  cmdk.addEventListener('click', (e) => {
+    if (e.target === cmdk) {
+      cmdk.classList.remove('open');
+    }
+  });
+
+  // Search functionality
+  cmdkInput.addEventListener('input', (e) => {
+    renderResults(e.target.value.toLowerCase());
+  });
+
+  function renderResults(query) {
+    const filtered = query ? searchItems.filter(item => item.label.toLowerCase().includes(query)) : [];
+    
+    if (filtered.length === 0 && query) {
+      cmdkResults.innerHTML = '<div class="cmdk-empty">No results found</div>';
+      return;
+    }
+
+    if (filtered.length === 0 && !query) {
+      cmdkResults.innerHTML = '<div class="cmdk-empty">Type to search or press ESC to close</div>';
+      return;
+    }
+
+    cmdkResults.innerHTML = filtered.map(item => 
+      `<div class="cmdk-item" onclick="scrollToSection('${item.id}'); cmdk.classList.remove('open');">${item.label}</div>`
+    ).join('');
+  }
+
+  // Scroll to section
+  function scrollToSection(id) {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      // Highlight the nav item
+      document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+      document.querySelector(`.nav-item[onclick="scrollToSection('${id}')"]`)?.classList.add('active');
+    }
+  }
+
+  // Tab switching
+  function switchTab(tabName) {
+    // Hide all tab contents
+    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+    // Remove active class from all tabs
+    document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+    
+    // Show selected tab content
+    document.getElementById(tabName).classList.add('active');
+    
+    // Add active class to clicked tab
+    event.target.classList.add('active');
+  }
+</script>
