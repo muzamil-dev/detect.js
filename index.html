@@ -419,9 +419,11 @@
   <div class="logo">DETECT</div>
 
   <div class="nav-section">
-    <div class="nav-title">Getting Started</div>
-    <div class="nav-item" onclick="scrollToSection('setup')">Clone & Setup</div>
-    <div class="nav-item" onclick="scrollToSection('overview')">Overview</div>
+    <div class="nav-title">Overview</div>
+    <div class="nav-item" onclick="scrollToSection('overview')">What is DETECT?</div>
+    <div class="nav-item" onclick="scrollToSection('what')">What it Does</div>
+    <div class="nav-item" onclick="scrollToSection('benefits')">Benefits for Recruiters</div>
+    <div class="nav-item" onclick="scrollToSection('installation')">Installation (optional)</div>
   </div>
 
   <div class="nav-section">
@@ -434,8 +436,8 @@
   <div class="nav-section">
     <div class="nav-title">Docs</div>
     <div class="nav-item" onclick="scrollToSection('dataflow')">Data Flow</div>
-    <div class="nav-item" onclick="scrollToSection('deployment')">Deployment</div>
     <div class="nav-item" onclick="scrollToSection('future')">Future Work</div>
+    <div class="nav-item" onclick="scrollToSection('tech')">Technology</div>
   </div>
 
   <div class="nav-section">
@@ -466,8 +468,27 @@
 </div>
 
 <div class="container content">
-  <h2 id="setup">Clone & Setup for Newbies</h2>
-  <p>Get DETECT running on your machine in minutes. Just follow the steps below for your operating system.</p>
+  <h2 id="what">What is DETECT?</h2>
+  <p>DETECT is a web application that analyzes subtle eye and facial movement patterns to surface behavioral signals. It provides a clear, visual summary so non-technical users can understand whether a recorded interaction shows indicators of possible deceptive behavior.</p>
+
+  <h2 id="benefits">How Recruiters Can Use It</h2>
+  <ul>
+    <li>Quickly screen recorded interview clips to highlight segments worth reviewing.</li>
+    <li>Complement human judgement with objective visual metrics and timelines.</li>
+    <li>Present consistent, repeatable signals across candidates for fairer comparisons.</li>
+  </ul>
+
+  <div style="margin: 24px 0; display:flex; gap:12px; justify-content:center;">
+    <a href="https://github.com/yourusername/DETECT.js" style="background:var(--accent); color:white; padding:12px 18px; border-radius:10px; text-decoration:none; font-weight:700;">View Project on GitHub</a>
+    <a href="#features" style="background:transparent; color:var(--accent); padding:12px 18px; border-radius:10px; border:1px solid var(--border); text-decoration:none; font-weight:700;">See Key Features</a>
+  </div>
+
+  <h2 id="overview">Overview</h2>
+  <p>DETECT is a real-time, web-based system for analyzing potential deceptive behavior using eye-tracking and behavioral signals. It provides a non-invasive alternative to traditional polygraph-style methods by leveraging computer vision and deterministic signal processing techniques.</p>
+  <p>The system captures gaze patterns through a webcam or uploaded video, processes eye movement data in real time, and generates a deception likelihood score based on behavioral anomalies.</p>
+
+  <h2 id="installation">Installation (optional)</h2>
+  <p style="color:var(--muted);">No install needed to understand the project—this section is only for reviewers who want to run the code locally.</p>
 
   <div class="tabs">
     <button class="tab active" onclick="switchTab('macos')">macOS / Linux</button>
@@ -475,47 +496,95 @@
   </div>
 
   <div id="macos" class="tab-content active">
-    <h3>macOS & Linux Setup</h3>
-    <p><strong>Step 1: Clone the repository</strong></p>
-    <pre><code>git clone https://github.com/yourusername/DETECT.js.git
-cd DETECT.js</code></pre>
+     <h3>macOS & Linux Installation</h3>
 
-    <p><strong>Step 2: Install Bun (fast JavaScript runtime)</strong></p>
-    <pre><code>curl -fsSL https://bun.sh/install | bash</code></pre>
+     <h4 style="color:var(--text); margin-top:20px; margin-bottom:10px;">Prerequisites</h4>
+     <p>Make sure you have the following installed:</p>
+     <ul>
+       <li><strong>Git</strong> — For cloning the repository. Check if installed: <code>git --version</code></li>
+       <li><strong>Node.js & npm</strong> (optional) — Fallback if you don't want Bun. Check: <code>node --version</code></li>
+     </ul>
 
-    <p><strong>Step 3: Install dependencies</strong></p>
-    <pre><code>bun install</code></pre>
+     <h4 style="color:var(--text); margin-top:20px; margin-bottom:10px;">Step 1: Install Bun (Recommended)</h4>
+     <p>Bun is a fast JavaScript runtime that replaces Node.js for this project. Install it with one command:</p>
+     <pre><code>curl -fsSL https://bun.sh/install | bash</code></pre>
+     <p style="color:var(--muted);">After installation, add Bun to your PATH. Restart your terminal or run:</p>
+     <pre><code>export BUN_INSTALL="$HOME/.bun"
+ export PATH="$BUN_INSTALL/bin:$PATH"</code></pre>
+     <p style="color:var(--muted);">Verify installation:</p>
+     <pre><code>bun --version</code></pre>
 
-    <p><strong>Step 4: Start the development server</strong></p>
-    <pre><code>bun run dev</code></pre>
+     <h4 style="color:var(--text); margin-top:20px; margin-bottom:10px;">Step 2: Clone the Repository</h4>
+     <pre><code>git clone https://github.com/muzamil-dev/detect.js.git
+ cd DETECT.js</code></pre>
 
-    <p>Your site will be running at <code>http://localhost:3000</code> 🚀</p>
-  </div>
+     <h4 style="color:var(--text); margin-top:20px; margin-bottom:10px;">Step 3: Install Dependencies</h4>
+     <p><strong>With Bun (faster):</strong></p>
+     <pre><code>bun install</code></pre>
+     <p style="margin-top:15px;"><strong>Or with npm (if you prefer):</strong></p>
+     <pre><code>npm install</code></pre>
+
+     <h4 style="color:var(--text); margin-top:20px; margin-bottom:10px;">Step 4: Start the Development Server</h4>
+     <p><strong>With Bun:</strong></p>
+     <pre><code>bun run dev</code></pre>
+     <p style="margin-top:15px;"><strong>Or with npm:</strong></p>
+     <pre><code>npm run dev</code></pre>
+     <p style="color:var(--accent); margin-top:15px;">✓ Your site will be running at <code>http://localhost:4321</code></p>
+
+     <h4 style="color:var(--text); margin-top:20px; margin-bottom:10px;">Troubleshooting</h4>
+     <ul style="color:var(--muted);">
+       <li><strong>Bun not found:</strong> Restart your terminal and verify with <code>bun --version</code></li>
+       <li><strong>Port 3000 already in use:</strong> Check what's running on that port with <code>lsof -i :3000</code></li>
+       <li><strong>Permission denied on install:</strong> Try prefixing with <code>sudo</code> or check folder permissions</li>
+     </ul>
 
   <div id="windows" class="tab-content">
-    <h3>Windows Setup</h3>
-    <p><strong>Step 1: Clone the repository</strong></p>
-    <pre><code>git clone https://github.com/yourusername/DETECT.js.git
-cd DETECT.js</code></pre>
+     <h3>Windows Installation</h3>
 
-    <p><strong>Step 2: Install Bun for Windows</strong></p>
-    <p>Download and run the installer from <code>bun.sh</code> or use PowerShell:</p>
-    <pre><code>powershell -c "irm bun.sh/install.ps1 | iex"</code></pre>
+     <h4 style="color:var(--text); margin-top:20px; margin-bottom:10px;">Prerequisites</h4>
+     <p>Make sure you have the following installed:</p>
+     <ul>
+       <li><strong>Git for Windows</strong> — Download from <code>git-scm.com</code> and install with default options</li>
+       <li><strong>Node.js & npm</strong> (optional) — Download from <code>nodejs.org</code> (LTS recommended)</li>
+     </ul>
 
-    <p><strong>Step 3: Install dependencies</strong></p>
-    <pre><code>bun install</code></pre>
+     <h4 style="color:var(--text); margin-top:20px; margin-bottom:10px;">Step 1: Install Bun for Windows</h4>
+     <p>Open <strong>PowerShell as Administrator</strong> and run:</p>
+     <pre><code>powershell -c "irm bun.sh/install.ps1 | iex"</code></pre>
+     <p style="color:var(--muted); margin-top:15px;">If you get an execution policy error, run this first:</p>
+     <pre><code>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser</code></pre>
+     <p style="color:var(--muted); margin-top:15px;">Then retry the install command above.</p>
+     <p style="color:var(--muted); margin-top:15px;">Verify installation by restarting PowerShell and running:</p>
+     <pre><code>bun --version</code></pre>
 
-    <p><strong>Step 4: Start the development server</strong></p>
-    <pre><code>bun run dev</code></pre>
+     <h4 style="color:var(--text); margin-top:20px; margin-bottom:10px;">Step 2: Clone the Repository</h4>
+     <p>Open <strong>Git Bash</strong> or PowerShell and run:</p>
+     <pre><code>git clone https://github.com/yourusername/DETECT.js.git
+ cd DETECT.js</code></pre>
 
-    <p>Your site will be running at <code>http://localhost:3000</code> 🚀</p>
+     <h4 style="color:var(--text); margin-top:20px; margin-bottom:10px;">Step 3: Install Dependencies</h4>
+     <p><strong>With Bun (faster):</strong></p>
+     <pre><code>bun install</code></pre>
+     <p style="margin-top:15px;"><strong>Or with npm (if you don't have Bun):</strong></p>
+     <pre><code>npm install</code></pre>
 
-    <p><strong>Troubleshooting:</strong> If you have issues, make sure you have <code>Node.js</code> or <code>Git Bash</code> installed.</p>
-  </div>
+     <h4 style="color:var(--text); margin-top:20px; margin-bottom:10px;">Step 4: Start the Development Server</h4>
+     <p><strong>With Bun:</strong></p>
+     <pre><code>bun run dev</code></pre>
+     <p style="margin-top:15px;"><strong>Or with npm:</strong></p>
+     <pre><code>npm run dev</code></pre>
+     <p style="color:var(--accent); margin-top:15px;">✓ Your site will be running at <code>http://localhost:3000</code></p>
 
-  <h2 id="overview">Overview</h2>
-  <p>DETECT is a real-time, web-based system for analyzing potential deceptive behavior using eye-tracking and behavioral signals. It provides a non-invasive alternative to traditional polygraph-style methods by leveraging computer vision and deterministic signal processing techniques.</p>
-  <p>The system captures gaze patterns through a webcam or uploaded video, processes eye movement data in real time, and generates a deception likelihood score based on behavioral anomalies.</p>
+     <h4 style="color:var(--text); margin-top:20px; margin-bottom:10px;">Troubleshooting</h4>
+     <ul style="color:var(--muted);">
+       <li><strong>Bun installation failed:</strong> Make sure PowerShell is running as Administrator</li>
+       <li><strong>Git not recognized:</strong> Restart PowerShell or use Git Bash instead</li>
+       <li><strong>Port 3000 already in use:</strong> Open Task Manager, find the process on port 3000, and kill it</li>
+       <li><strong>'git' is not recognized:</strong> Install Git for Windows and restart your terminal</li>
+     </ul>
+
+     <h4 style="color:var(--text); margin-top:20px; margin-bottom:10px;">Prefer npm over Bun?</h4>
+     <p style="color:var(--muted);">If you don't want to install Bun, just skip Step 1 and use <code>npm install</code> + <code>npm run dev</code> in the steps above.</p>
 
   <h2 id="features">Key Features</h2>
   <div class="features">
@@ -728,13 +797,15 @@ User Dashboard</code></pre>
   const cmdkResults = document.getElementById('cmdk-results');
 
   const searchItems = [
-    { label: 'Clone & Setup', id: 'setup' },
     { label: 'Overview', id: 'overview' },
+    { label: 'What is DETECT?', id: 'what' },
+    { label: 'What it Does', id: 'what' },
+    { label: 'Benefits for Recruiters', id: 'benefits' },
+    { label: 'Installation (optional)', id: 'installation' },
     { label: 'Key Features', id: 'features' },
     { label: 'Technology Stack', id: 'tech' },
     { label: 'System Architecture', id: 'architecture' },
     { label: 'Data Flow', id: 'dataflow' },
-    { label: 'Deployment', id: 'deployment' },
     { label: 'Team', id: 'team' },
     { label: 'Future Work', id: 'future' }
   ];
