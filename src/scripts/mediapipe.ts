@@ -1,8 +1,11 @@
 // src/scripts/mediapipe.ts
 
-import { FaceMesh } from "@mediapipe/face_mesh";
-import { Camera } from "@mediapipe/camera_utils";
-import { drawLandmarks } from "@mediapipe/drawing_utils";
+import fmPkg from "@mediapipe/face_mesh";
+const { FaceMesh } = fmPkg;
+import camPkg from "@mediapipe/camera_utils";
+const { Camera } = camPkg;
+import drawPkg from "@mediapipe/drawing_utils";
+const { drawLandmarks } = drawPkg;
 import {
   LEFT_IRIS_CENTER,
   RIGHT_IRIS_CENTER,
@@ -16,8 +19,8 @@ import {
 export class MediaPipeProcessor {
   videoEl: HTMLVideoElement;
   canvasEl: HTMLCanvasElement;
-  faceMesh: FaceMesh | null = null;
-  camera: Camera | null = null;
+  faceMesh: any = null;
+  camera: any = null;
 
   constructor(videoEl: HTMLVideoElement, canvasEl: HTMLCanvasElement) {
     this.videoEl = videoEl;

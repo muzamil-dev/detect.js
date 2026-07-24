@@ -1,6 +1,9 @@
 <script lang="ts">
-  import { drawLandmarks } from "@mediapipe/drawing_utils";
-  import { FaceMesh, type Results } from "@mediapipe/face_mesh";
+  import drawPkg from "@mediapipe/drawing_utils";
+  const { drawLandmarks } = drawPkg;
+  import fmPkg from "@mediapipe/face_mesh";
+  const { FaceMesh } = fmPkg;
+  import type { Results } from "@mediapipe/face_mesh";
   import { onDestroy, onMount } from "svelte";
   import { writable } from "svelte/store";
   import { createSession } from "../scripts/session";

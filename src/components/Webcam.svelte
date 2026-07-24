@@ -9,9 +9,13 @@
     calculateAffineTransformation,
   } from "../scripts/affineTransformation";
 
-  import { Camera } from "@mediapipe/camera_utils";
-  import { drawLandmarks } from "@mediapipe/drawing_utils";
-  import { FaceMesh, type Results } from "@mediapipe/face_mesh";
+  import camPkg from "@mediapipe/camera_utils";
+  const { Camera } = camPkg;
+  import drawPkg from "@mediapipe/drawing_utils";
+  const { drawLandmarks } = drawPkg;
+  import fmPkg from "@mediapipe/face_mesh";
+  const { FaceMesh } = fmPkg;
+  import type { Results } from "@mediapipe/face_mesh";
   import type { Coordinates } from "../scripts/affineTransformation";
   import { applySmoothing } from "../scripts/smoothing";
 

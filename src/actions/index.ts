@@ -11,14 +11,7 @@ export const server = {
     input: z.object({
       email: z.string().email("Invalid email address"),
       //! Checks added, comment out if you want to remove them
-      password: z
-        .string()
-        .min(8, "Password must be at least 8 characters long")
-        .regex(
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
-          "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character"
-        )
-        .max(100, "Password must be less than 100 characters long"),
+      password: z.string().min(1, "Password must be at least 1 character long"),
     }),
     handler: async (input, event) => {
       const { email, password } = input;
@@ -71,14 +64,7 @@ export const server = {
     accept: "form",
     input: z.object({
       email: z.string().email("Invalid email address"),
-      password: z
-        .string()
-        .min(8, "Password must be at least 8 characters long")
-        .regex(
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
-          "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character"
-        )
-        .max(100, "Password must be less than 100 characters long"),
+      password: z.string().min(1, "Password must be at least 1 character long"),
     }),
     handler: async (input, event) => {
       const url = `${serverAddress}/register`;
