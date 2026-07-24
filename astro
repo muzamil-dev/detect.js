@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+if [ -f "./node_modules/.bin/astro" ]; then
+  exec ./node_modules/.bin/astro "$@"
+else
+  exec npx astro "$@"
+fi

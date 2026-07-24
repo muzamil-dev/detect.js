@@ -2,12 +2,16 @@
   "name": "detect-js",
   "type": "module",
   "version": "0.0.1",
+  "bin": {
+    "astro": "./astro"
+  },
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "postinstall": "chmod +x ./astro 2>/dev/null || true"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.4",
