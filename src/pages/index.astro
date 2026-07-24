@@ -1,350 +1,314 @@
 ---
-import LandingLayout from "../layouts/LandingLayout.astro";
-import LandingHeader from "../components/LandingHeader.astro";
-import Section from "../components/Section.astro";
+import Header from "../components/Header.astro";
+import CustomHead from "../layouts/CustomHead.astro";
 ---
 
-<LandingLayout>
-  <LandingHeader />
-  <main
-    class="w-full max-w-screen-xl mx-auto px-4 md:px-8 text-base-content py-8"
+<CustomHead title="DETECT.js - Eye Tracker">
+  <Header />
+
+  <!-- Outer container with clean white border -->
+  <div
+    class="bg-base-200 m-4 overflow-hidden flex flex-col items-center justify-between
+           border-white rounded-lg border-4 opacity-90 shadow-glow min-h-[82vh] relative"
   >
-    <!-- Hero Section with Gradient Text -->
-    <div class="mb-12 slideFromTop" style="animation-delay: 0s;">
-      <h1 class="text-7xl font-bold mb-4 text-center gradient-text">
-        Welcome to DETECT
-      </h1>
-      <div class="flex justify-center mb-6">
-        <span class="badge badge-lg badge-primary px-4 py-3 text-xl font-medium"
-          >AI-Powered Eye Movement Analysis</span
-        >
-      </div>
-      <p class="text-lg leading-relaxed text-center max-w-3xl mx-auto">
-        Experience high-precision <span
-          class="text-accent font-semibold">real-time eye tracking</span>, iris landmark extraction, saccadic velocity analysis, and fixation stability metrics.
-      </p>
-    </div>
-
-    <!-- Two-Column Content Layout -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <!-- Left Column: Purpose Section -->
-      <div class="slideFromLeft" style="animation-delay: 0.2s;">
-        <Section
-          size="full"
-          padding="p-6"
-          bg="bg-gradient-to-br from-base-100 to-base-200"
-          border="border-2 border-primary"
-          rounded="rounded-lg"
-          shadow="shadow-xl shadow-primary/10"
-          class="flex flex-col items-start justify-start h-full backdrop-blur-sm"
-        >
-          <div class="flex items-center mb-4 w-full">
-            <div class="w-2 h-8 bg-primary rounded-full mr-3"></div>
-            <h2 class="text-3xl font-semibold text-primary">
-              What is the Purpose?
-            </h2>
-          </div>
-          <p class="text-lg leading-relaxed">
-            DETECT provides a <span
-              class="text-success font-medium"
-              >scientific, non-intrusive platform</span
-            > for measuring eye landmark telemetry, gaze fixation stability, and saccadic eye movements in real time using computer vision.
-          </p>
-          <div
-            class="mt-4 p-3 bg-base-300/50 rounded-md border-l-4 border-info w-full"
-          >
-            <p class="text-base-content text-sm italic">
-              "Precision biometric insights, powered by real-time computer vision and iris landmark tracking." — Biometric Research
-            </p>
-          </div>
-        </Section>
+    <!-- Row container for webcam canvas (left) and graph canvas (right) -->
+    <div class="flex flex-col md:flex-row w-full h-auto justify-center items-center p-2 md:p-4 gap-4 flex-grow">
+      <!-- Left side: Webcam -->
+      <div class="flex flex-col justify-center items-center w-full md:w-1/2 p-2">
+        <video id="webcamVideo" class="hidden" playsinline muted></video>
+        <canvas
+          id="webcamCanvas"
+          class="rounded bg-neutral shadow-glow w-full h-[50vh] md:h-[58vh] object-contain"
+        ></canvas>
       </div>
 
-      <!-- Right Column: Features Section -->
-      <div class="slideFromRight" style="animation-delay: 0.4s;">
-        <Section
-          size="full"
-          padding="p-6"
-          bg="bg-gradient-to-tr from-base-100 to-base-200"
-          border="border-2 border-secondary"
-          rounded="rounded-lg"
-          shadow="shadow-xl shadow-secondary/10"
-          class="flex flex-col items-start justify-start h-full backdrop-blur-sm"
-        >
-          <div class="flex items-center mb-4 w-full">
-            <div class="w-2 h-8 bg-secondary rounded-full mr-3"></div>
-            <h2 class="text-3xl font-semibold text-secondary">
-              Project Features
-            </h2>
-          </div>
-          <ul class="space-y-4 w-full">
-            <li
-              class="feature-card bg-base-300/40 p-3 rounded-md border-l-4 border-success"
-            >
-              <strong class="text-success">Real-Time Analysis</strong>
-              <p class="text-sm mt-1">
-                Immediate feedback powered by advanced statistical modeling.
-              </p>
-            </li>
-            <li
-              class="feature-card bg-base-300/40 p-3 rounded-md border-l-4 border-warning"
-            >
-              <strong class="text-warning">Multiple Analysis Methods</strong>
-              <p class="text-sm mt-1">
-                Choose between video upload, live webcam analysis, or historical
-                data.
-              </p>
-            </li>
-            <li
-              class="feature-card bg-base-300/40 p-3 rounded-md border-l-4 border-info"
-            >
-              <strong class="text-info">Secure Authentication</strong>
-              <p class="text-sm mt-1">
-                Streamlined, robust login procedures ensure your data stays
-                protected.
-              </p>
-            </li>
-            <li
-              class="feature-card bg-base-300/40 p-3 rounded-md border-l-4 border-accent"
-            >
-              <strong class="text-accent">Intuitive Dashboard</strong>
-              <p class="text-sm mt-1">
-                A user-friendly interface for monitoring results and insights.
-              </p>
-            </li>
-          </ul>
-        </Section>
-      </div>
-
-      <!-- Left Column: Privacy Section -->
-      <div class="slideFromLeft" style="animation-delay: 0.6s;">
-        <Section
-          size="full"
-          padding="p-6"
-          bg="bg-gradient-to-br from-base-100 to-base-200"
-          border="border-2 border-accent"
-          rounded="rounded-lg"
-          shadow="shadow-xl shadow-accent/10"
-          class="flex flex-col items-start justify-start h-full backdrop-blur-sm"
-        >
-          <div class="flex items-center mb-4 w-full">
-            <div class="w-2 h-8 bg-accent rounded-full mr-3"></div>
-            <h2 class="text-3xl font-semibold text-accent">
-              Privacy &amp; Security
-            </h2>
-          </div>
-          <p class="text-lg leading-relaxed">
-            Your privacy is <span class="text-accent font-semibold"
-              >paramount</span
-            >. DETECT never stores any personally identifiable data, such as
-            video recordings. All processing occurs in real time and only with
-            your explicit consent.
-          </p>
-
-          <div class="mt-auto w-full space-y-3">
-            <div
-              class="flex items-center justify-between bg-base-300/50 p-4 rounded-lg shadow-md"
-            >
-              <span class="text-base-content/80 font-medium"
-                >Data Protection</span
-              >
-              <div class="toggle-switch-wrapper">
-                <input
-                  type="checkbox"
-                  id="dataProtection"
-                  class="toggle-switch"
-                  checked
-                />
-                <label for="dataProtection" class="toggle-switch-label"></label>
-              </div>
-            </div>
-            <div
-              class="flex items-center justify-between bg-base-300/50 p-4 rounded-lg shadow-md"
-            >
-              <span class="text-base-content/80 font-medium"
-                >Anonymous Processing</span
-              >
-              <div class="toggle-switch-wrapper">
-                <input
-                  type="checkbox"
-                  id="anonProcessing"
-                  class="toggle-switch"
-                  checked
-                />
-                <label for="anonProcessing" class="toggle-switch-label"></label>
-              </div>
-            </div>
-          </div>
-        </Section>
-      </div>
-
-      <!-- Right Column: Media Section -->
-      <div class="slideFromRight" style="animation-delay: 0.8s;">
-        <Section
-          size="full"
-          padding="p-6"
-          bg="bg-gradient-to-tr from-base-100 to-base-200"
-          border="border-2 border-neutral"
-          rounded="rounded-lg"
-          shadow="shadow-xl shadow-neutral/10"
-          class="flex flex-col items-start justify-start h-full backdrop-blur-sm"
-        >
-          <div class="flex items-center mb-4 w-full">
-            <div class="w-2 h-8 bg-neutral rounded-full mr-3"></div>
-            <h2 class="text-3xl font-semibold text-neutral-content">
-              Visual Examples
-            </h2>
-          </div>
-          <div class="grid grid-cols-1 gap-4 w-full h-full">
-            <div
-              class="relative overflow-hidden rounded-lg border-2 border-neutral-content/20 group"
-            >
-              <img
-                src="/images/001.jpg"
-                alt="Corporate Cartoon 1"
-                class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div
-                class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-neutral to-transparent p-3"
-              >
-                <p class="text-neutral-content text-sm">
-                  Eye movement tracking visualization
-                </p>
-              </div>
-            </div>
-            <div
-              class="relative overflow-hidden rounded-lg border-2 border-neutral-content/20 group"
-            >
-              <img
-                src="/images/002.jpg"
-                alt="Corporate Cartoon 2"
-                class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div
-                class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-neutral to-transparent p-3"
-              >
-                <p class="text-neutral-content text-sm">
-                  Results dashboard preview
-                </p>
-              </div>
-            </div>
-          </div>
-        </Section>
+      <!-- Right side: Graph -->
+      <div class="flex flex-col justify-center items-center w-full md:w-1/2 p-2">
+        <canvas
+          id="graphCanvas"
+          class="border-2 border-white rounded-lg bg-black/60 w-full h-[50vh] md:h-[58vh]"
+        ></canvas>
       </div>
     </div>
-  </main>
-  <style>
-    .slideFromLeft {
-      opacity: 0;
-      transform: translateX(-50px);
-      transition:
-        opacity 1s ease-out,
-        transform 1s ease-out;
-    }
-    .slideFromRight {
-      opacity: 0;
-      transform: translateX(50px);
-      transition:
-        opacity 1s ease-out,
-        transform 1s ease-out;
-    }
-    .slideFromTop {
-      opacity: 0;
-      transform: translateY(-30px);
-      transition:
-        opacity 1s ease-out,
-        transform 1s ease-out;
-    }
-    .fadeIn {
-      opacity: 1;
-      transform: translateX(0) translateY(0);
-    }
-    .gradient-text {
-      background: linear-gradient(
-        to right,
-        var(--color-primary),
-        var(--color-secondary)
-      );
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-    .feature-card {
-      transition: all 0.3s ease;
-    }
-    .feature-card:hover {
-      transform: translateX(5px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
 
-    /* Toggle Switch Styling */
-    .toggle-switch-wrapper {
-      position: relative;
-      width: 50px;
-      height: 26px;
-    }
-    .toggle-switch {
-      appearance: none;
-      width: 100%;
-      height: 100%;
-      background-color: var(--color-primary);
-      border-radius: 20px;
-      position: absolute;
-      transition: background 0.3s ease-in-out;
-      cursor: pointer;
-      outline: none;
-    }
-    .toggle-switch-label {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-    }
-    .toggle-switch-label::before {
-      content: "";
-      position: absolute;
-      width: 22px;
-      height: 22px;
-      background-color: var(--color-base-100);
-      border-radius: 50%;
-      top: 2px;
-      left: 2px;
-      transition: transform 0.3s ease-in-out;
-    }
-    .toggle-switch:checked {
-      background-color: var(--color-success);
-    }
-    .toggle-switch:checked + .toggle-switch-label::before {
-      transform: translateX(24px);
-    }
+    <!-- Live Telemetry Status Bar -->
+    <div class="w-full px-4 py-2 bg-base-300 border-t border-b border-white/20 flex flex-wrap justify-around items-center text-sm font-mono font-semibold text-white">
+      <div>Gaze Position: <span id="mGaze" class="text-white font-bold">-- , --</span></div>
+      <div>Quadrant: <span id="mQuad" class="text-accent font-bold">--</span></div>
+      <div>Status: <span id="mStatus" class="text-warning font-bold">Uncalibrated</span></div>
+    </div>
 
-    /* Responsive adjustments */
-    @media (max-width: 640px) {
-      .gradient-text {
-        font-size: 3rem;
+    <!-- Control buttons at the bottom -->
+    <div class="flex flex-wrap md:flex-nowrap w-full font-semibold text-lg text-primary-content p-2 gap-2">
+      <button
+        id="btnStart"
+        class="bg-info py-4 px-6 rounded-md flex-1 text-info-content
+               hover:bg-success hover:text-success-content hover:scale-105
+               hover:shadow-glow transition-transform cursor-pointer"
+      >
+        Start
+      </button>
+      <button
+        id="btnCalibrate"
+        disabled
+        class="bg-secondary py-4 px-6 rounded-md flex-1 text-secondary-content
+               hover:bg-primary hover:text-primary-content hover:scale-105
+               hover:shadow-glow transition-transform cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+      >
+        Calibrate (9-Point)
+      </button>
+      <button
+        id="btnSaveXml"
+        disabled
+        class="bg-neutral py-4 px-6 rounded-md flex-1 text-neutral-content border border-white
+               hover:bg-accent hover:text-accent-content hover:scale-105
+               hover:shadow-glow transition-transform cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+      >
+        Save XML
+      </button>
+    </div>
+  </div>
+
+  <!-- Fullscreen 9-Point Calibration Overlay -->
+  <div id="calibOverlay" class="fixed inset-0 bg-base-100/95 z-50 hidden">
+    <div id="targetPoint" class="absolute w-8 h-8 -ml-4 -mt-4 rounded-full bg-error border-2 border-white shadow-glow-magenta"></div>
+    <div class="absolute bottom-10 left-0 right-0 text-center">
+      <p id="calibText" class="text-2xl font-bold font-mono text-white">Look directly at the red dot...</p>
+    </div>
+  </div>
+
+  <script>
+    import { GazeTrackerEngine, SCREEN_TARGETS } from '../scripts/gazeEngine';
+
+    let engine: GazeTrackerEngine | null = null;
+    let video: HTMLVideoElement;
+    let webcamCanvas: HTMLCanvasElement;
+    let webcamCtx: CanvasRenderingContext2D;
+    let graphCanvas: HTMLCanvasElement;
+    let graphCtx: CanvasRenderingContext2D;
+
+    let isRunning = false;
+    let isCalibrating = false;
+
+    interface Point { ts: number; x: number; y: number; quad: string }
+    const history: Point[] = [];
+
+    const targetKeys = Object.keys(SCREEN_TARGETS);
+    let calibIdx = 0;
+    const calibSamples: { features: number[]; target: { u: number; v: number } }[] = [];
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      video = document.getElementById('webcamVideo') as HTMLVideoElement;
+      webcamCanvas = document.getElementById('webcamCanvas') as HTMLCanvasElement;
+      webcamCtx = webcamCanvas.getContext('2d')!;
+      graphCanvas = document.getElementById('graphCanvas') as HTMLCanvasElement;
+      graphCtx = graphCanvas.getContext('2d')!;
+
+      const btnStart = document.getElementById('btnStart') as HTMLButtonElement;
+      const btnCalibrate = document.getElementById('btnCalibrate') as HTMLButtonElement;
+      const btnSaveXml = document.getElementById('btnSaveXml') as HTMLButtonElement;
+
+      btnStart.onclick = toggleWebcam;
+      btnCalibrate.onclick = startCalibration;
+      btnSaveXml.onclick = saveXml;
+
+      engine = new GazeTrackerEngine();
+      await engine.init();
+    });
+
+    async function toggleWebcam() {
+      const btnStart = document.getElementById('btnStart') as HTMLButtonElement;
+      const btnCalibrate = document.getElementById('btnCalibrate') as HTMLButtonElement;
+      const btnSaveXml = document.getElementById('btnSaveXml') as HTMLButtonElement;
+      const mStatus = document.getElementById('mStatus')!;
+
+      if (isRunning) {
+        isRunning = false;
+        btnStart.textContent = 'Start';
+        btnCalibrate.disabled = true;
+        mStatus.textContent = 'Stopped';
+        mStatus.className = 'text-warning font-bold';
+        if (video.srcObject) {
+          (video.srcObject as MediaStream).getTracks().forEach(t => t.stop());
+        }
+        return;
+      }
+
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 480 } }
+        });
+        video.srcObject = stream;
+        await video.play();
+        isRunning = true;
+        btnStart.textContent = 'Stop';
+        btnCalibrate.disabled = false;
+        btnSaveXml.disabled = false;
+        mStatus.textContent = 'Active (Uncalibrated)';
+        mStatus.className = 'text-info font-bold';
+        requestAnimationFrame(loop);
+      } catch (e) {
+        console.error(e);
+        mStatus.textContent = 'Camera Error';
+        mStatus.className = 'text-error font-bold';
       }
     }
-  </style>
-  <script is:inline>
-    document.addEventListener("DOMContentLoaded", function () {
-      const animatedElements = document.querySelectorAll(
-        ".slideFromLeft, .slideFromRight, .slideFromTop",
-      );
-      const options = { threshold: 0.2 };
 
-      const appearOnScroll = new IntersectionObserver((entries, observer) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("fadeIn");
-            observer.unobserve(entry.target);
+    function loop(ts: number) {
+      if (!isRunning || !engine || !video) return;
+
+      webcamCanvas.width = video.videoWidth || 640;
+      webcamCanvas.height = video.videoHeight || 480;
+
+      webcamCtx.clearRect(0, 0, webcamCanvas.width, webcamCanvas.height);
+      webcamCtx.drawImage(video, 0, 0, webcamCanvas.width, webcamCanvas.height);
+
+      const results = engine.detect(video, ts);
+      if (results && results.faceLandmarks && results.faceLandmarks[0]) {
+        const landmarks = results.faceLandmarks[0];
+        const extracted = engine.extractFeatures(landmarks);
+
+        if (extracted) {
+          const gaze = engine.predict(extracted.features, window.innerWidth, window.innerHeight);
+          if (gaze) {
+            const xPct = Math.round(gaze.u * 100);
+            const yPct = Math.round(gaze.v * 100);
+            document.getElementById('mGaze')!.textContent = `${xPct}%, ${yPct}%`;
+
+            let quad = 'Center';
+            if (xPct < 45 && yPct < 45) quad = 'Top-Left';
+            else if (xPct > 55 && yPct < 45) quad = 'Top-Right';
+            else if (xPct < 45 && yPct > 55) quad = 'Bottom-Left';
+            else if (xPct > 55 && yPct > 55) quad = 'Bottom-Right';
+            document.getElementById('mQuad')!.textContent = quad;
+
+            // DRAW PLAIN RED DOT ON IRISES
+            [468, 473].forEach(idx => {
+              if (landmarks[idx]) {
+                const ix = landmarks[idx].x * webcamCanvas.width;
+                const iy = landmarks[idx].y * webcamCanvas.height;
+
+                webcamCtx.beginPath();
+                webcamCtx.arc(ix, iy, 4, 0, Math.PI * 2);
+                webcamCtx.fillStyle = '#ff0000';
+                webcamCtx.fill();
+              }
+            });
+
+            history.push({ ts: performance.now(), x: gaze.u * 100, y: gaze.v * 100, quad });
+            if (history.length > 300) history.shift();
+
+            if (isCalibrating) {
+              const currentKey = targetKeys[calibIdx];
+              const target = SCREEN_TARGETS[currentKey];
+              if (target) calibSamples.push({ features: extracted.features, target });
+            }
           }
-        });
-      }, options);
+        }
+      }
 
-      animatedElements.forEach((element) => {
-        appearOnScroll.observe(element);
+      drawGraph();
+      requestAnimationFrame(loop);
+    }
+
+    function drawGraph() {
+      const w = graphCanvas.width = graphCanvas.clientWidth;
+      const h = graphCanvas.height = graphCanvas.clientHeight;
+      graphCtx.clearRect(0, 0, w, h);
+
+      // Grid
+      graphCtx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+      graphCtx.lineWidth = 1;
+      for (let i = 0; i <= 4; i++) {
+        const y = (h / 4) * i;
+        graphCtx.beginPath(); graphCtx.moveTo(0, y); graphCtx.lineTo(w, y); graphCtx.stroke();
+      }
+
+      if (history.length > 1) {
+        const step = w / (history.length - 1);
+
+        // Gaze X (Cyan line)
+        graphCtx.beginPath();
+        graphCtx.strokeStyle = '#00ffff';
+        graphCtx.lineWidth = 2;
+        history.forEach((p, i) => {
+          const x = i * step;
+          const y = h - (p.x / 100) * h;
+          if (i === 0) graphCtx.moveTo(x, y); else graphCtx.lineTo(x, y);
+        });
+        graphCtx.stroke();
+
+        // Gaze Y (Magenta line)
+        graphCtx.beginPath();
+        graphCtx.strokeStyle = '#ff00ff';
+        graphCtx.lineWidth = 2;
+        history.forEach((p, i) => {
+          const x = i * step;
+          const y = h - (p.y / 100) * h;
+          if (i === 0) graphCtx.moveTo(x, y); else graphCtx.lineTo(x, y);
+        });
+        graphCtx.stroke();
+      }
+    }
+
+    function startCalibration() {
+      if (!isRunning) return;
+      isCalibrating = true;
+      calibIdx = 0;
+      calibSamples.length = 0;
+      document.getElementById('calibOverlay')!.classList.remove('hidden');
+      nextCalibPoint();
+    }
+
+    function nextCalibPoint() {
+      if (calibIdx >= targetKeys.length) {
+        isCalibrating = false;
+        document.getElementById('calibOverlay')!.classList.add('hidden');
+
+        const mStatus = document.getElementById('mStatus')!;
+        if (engine && engine.trainModel(calibSamples)) {
+          mStatus.textContent = 'Calibrated ✓';
+          mStatus.className = 'text-success font-bold';
+        } else {
+          mStatus.textContent = 'Calibration Failed';
+          mStatus.className = 'text-error font-bold';
+        }
+        return;
+      }
+
+      const key = targetKeys[calibIdx];
+      const target = SCREEN_TARGETS[key];
+      const pt = document.getElementById('targetPoint')!;
+      const txt = document.getElementById('calibText')!;
+
+      pt.style.left = `${target.u * 100}%`;
+      pt.style.top = `${target.v * 100}%`;
+      txt.textContent = `Look at dot (${calibIdx + 1}/9: ${target.label})`;
+
+      setTimeout(() => {
+        calibIdx++;
+        nextCalibPoint();
+      }, 2000);
+    }
+
+    function saveXml() {
+      if (history.length === 0) return;
+
+      let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<gazeData timestamp="${new Date().toISOString()}">\n  <samples>\n`;
+      history.forEach((p, i) => {
+        xml += `    <sample index="${i + 1}" time="${p.ts.toFixed(1)}" x="${p.x.toFixed(2)}" y="${p.y.toFixed(2)}" quadrant="${p.quad}" />\n`;
       });
-    });
+      xml += `  </samples>\n</gazeData>`;
+
+      const blob = new Blob([xml], { type: 'application/xml' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `gaze_data_${Date.now()}.xml`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
   </script>
-</LandingLayout>
+</CustomHead>
