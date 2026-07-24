@@ -1,0 +1,85 @@
+func (s *Server) handleCreateSession(w http.ResponseWriter, r *http.Request) {
+    dbService := database.New()
+
+    cookie, err := r.Cookie("token")
+    if err != nil {
+        http.Error(w, "Unauthorized: Token missing", http.StatusUnauthorized)
+        return
+    }
+    token := cookie.Value
+
+    email, valid, err := dbService.GetUserByToken(token)
+    if err != nil || !valid {
+        http.Error(w, "Unauthorized: Invalid token", http.StatusUnauthorized)
+        return
+    }
+
+    userID, err := dbService.GetUserIDByEmail(email)
+    if err != nil {
+        http.Error(w, "User not found", http.StatusNotFound)
+        return
+    }
+
+    var reqData struct {
+        Name      string  `json:"name"`
+        StartTime string  `json:"start_time"`
+        EndTime   string  `json:"end_time"`
+        Min       float64 `json:"min"`
+        Max       float64 `json:"max"`
+        VarMin    float64 `json:"var_min"`
+        VarMax    float64 `json:"var_max"`
+        AccMin    float64 `json:"acc_min"`
+        AccMax    float64 `json:"acc_max"`
+    }
+
+    err = json.NewDecoder(r.Body).Decode(&reqData)
+    if err != nil {
+        http.Error(w, "Invalid JSON input", http.StatusBadRequest)
+        return
+    }
+
+    sessionID, err := dbService.CreateSession(userID, reqData.Name, reqData.StartTime, reqData.EndTime, reqData.Min, reqData.Max, reqData.VarMin, reqData.VarMax, reqData.AccMin, reqData.AccMax)
+    if err != nil {
+        http.Error(w, "Failed to create session", http.StatusInternalServerError)
+        return
+    }
+
+    w.Header().Set("Content-Type", "application/json")
+    w.WriteHeader(http.StatusCreated)
+    json.NewEncoder(w).Encode(map[string]interface{}{
+        "message":   "Session created successfully",
+        "sessionId": sessionID,
+    })
+}
+
+func (s *Server) handleGetSessions(w http.ResponseWriter, r *http.Request) {
+    dbService := database.New()
+
+    cookie, err := r.Cookie("token")
+    if err != nil {
+        http.Error(w, "Unauthorized: Token missing", http.StatusUnauthorized)
+        return
+    }
+    token := cookie.Value
+
+    email, valid, err := dbService.GetUserByToken(token)
+    if err != nil || !valid {
+        http.Error(w, "Unauthorized: Invalid token", http.StatusUnauthorized)
+        return
+    }
+
+    userID, err := dbService.GetUserIDByEmail(email)
+    if err != nil {
+        http.Error(w, "User not found", http.StatusNotFound)
+        return
+    }
+
+    sessions, err := dbService.GetSessions(userID)
+    if err != nil {
+        http.Error(w, "Failed to fetch sessions", http.StatusInternalServerError)
+        return
+    }
+
+    w.Header().Set("Content-Type", "application/json")
+    json.NewEncoder(w).Encode(sessions)
+}

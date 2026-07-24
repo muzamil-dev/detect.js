@@ -58,8 +58,7 @@ export class ProbabilityGraph {
 	  if (this.probability !== null) {
 		this.ctx.fillStyle = "#FFFFFF"; // White text
 		this.ctx.font = "bold 24px Arial";
-		this.ctx.textAlign = "right"; // Align text to the right
-		this.ctx.fillText(`Probability: ${(this.probability * 100).toFixed(1)}%`, width - 10, height - 10);
+		this.ctx.fillText(`Focus Score: ${(this.probability * 100).toFixed(1)}%`, width - 10, height - 10);
 	  }
 	}
   }

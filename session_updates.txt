@@ -1,0 +1,44 @@
+func (s *service) CreateSession(userID int, name, startTime, endTime string, min, max, varMin, varMax, accMin, accMax float64) (int, error) {
+    var sessionID int
+    query := `INSERT INTO session (user_id, name, start_time, end_time, min, max, var_min, var_max, acc_min, acc_max) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id`
+    err := s.db.QueryRow(query, userID, name, startTime, endTime, min, max, varMin, varMax, accMin, accMax).Scan(&sessionID)
+    if err != nil {
+        return 0, fmt.Errorf("error inserting session: %v", err)
+    }
+    return sessionID, nil
+}
+
+func (s *service) GetSessions(userID int) ([]map[string]interface{}, error) {
+    query := `SELECT id, user_id, name, start_time, end_time, min, max, var_min, var_max, acc_min, acc_max, created_at FROM session WHERE user_id = $1 ORDER BY created_at DESC`
+    rows, err := s.db.Query(query, userID)
+    if err != nil {
+        return nil, err
+    }
+    defer rows.Close()
+
+    var sessions []map[string]interface{}
+    for rows.Next() {
+        var id, uID int
+        var name, startTime, endTime, createdAt string
+        var min, max, varMin, varMax, accMin, accMax float64
+        err := rows.Scan(&id, &uID, &name, &startTime, &endTime, &min, &max, &varMin, &varMax, &accMin, &accMax, &createdAt)
+        if err != nil {
+            return nil, err
+        }
+        sessions = append(sessions, map[string]interface{}{
+            "ID":        id,
+            "UserID":    uID,
+            "Name":      name,
+            "StartTime": startTime,
+            "EndTime":   endTime,
+            "Min":       min,
+            "Max":       max,
+            "VarMin":    varMin,
+            "VarMax":    varMax,
+            "AccMin":    accMin,
+            "AccMax":    accMax,
+            "CreatedAt": createdAt,
+        })
+    }
+    return sessions, nil
+}
